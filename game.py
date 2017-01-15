@@ -1,10 +1,9 @@
-
-grid = [
+def make_grid():
+    return [
     [None, None, None],
     [None, None, None],
     [None, None, None]
     ]
-
 
 def winner():
     global grid, players
@@ -30,6 +29,9 @@ def winner():
             
     return None
 
+def gap():
+    print('''
+''' * 50)
 
 def show_grid():
     global grid
@@ -58,47 +60,64 @@ def try_move(pos, player):
 
 
 players = ['x', 'o']
+grid = make_grid()
+
+gap()
+print('''Welcome to noughts and crosses!
+This was made by Jon fam
+
+Press enter to start''')
+input()
 
 # Game loop
 while True:
 
+    gap()
+
     for player in players:
 
-        while True:
+        win = winner()
 
-            try:
-                print()
-                show_grid()
-                coord_str = input("Where would you like to place your marker player '" + player + "'? ")
-                coords = list(eval(coord_str))
+        if win == None:
 
-                coords[0] -= 1
-                coords[1] -= 1
+            while True:
 
-                if coords[0] > 2 or coords[0] < 0 or coords[1] > 2 or coords[1] < 0:
-                    print('Values between 1 and 3 please')
+                try:
+                    print()
+                    show_grid()
+                    coord_str = input("Where would you like to place your marker player '" + player + "'? ")
+                    coords = list(eval(coord_str))
 
-                elif try_move(coords, player):
-                    break
-                
-                else:
-                    print('That spot is taken up, try a different one')
+                    coords[0] -= 1
+                    coords[1] -= 1
+
+                    coords[0] = int(coords[0])
+                    coords[0] = int(coords[0])
+
+                    gap()
+
+                    if coords[0] > 2 or coords[0] < 0 or coords[1] > 2 or coords[1] < 0:
+                        print('Values between 1 and 3 please')
+
+                    elif try_move(coords, player):
+                        break
                     
-            except:
-                print('Coordinates please (in the form (x,y) or x,y)')
-        
-            
-
-        
-
-
-
+                    else:
+                        gap()
+                        print('That spot is taken up, try a different one')
+                        
+                except:
+                    gap()
+                    print('Coordinates please (in the form (x,y) or x,y)')
 
 
-
-
-
-
-
+        else:   
+            print('''
+----------------------
+Player ''' + win + ''' won!
+Press enter to restart
+----------------------''')
+            grid = make_grid()
+            input()
 
         
