@@ -40,15 +40,29 @@ while True:
     for player in players:
 
         while True:
-            print()
-            show_grid()
-            coord_str = input("Where would you like to place your marker player '" + player + "'? ")
-            coords = eval(coord_str)
+
+            try:
+                print()
+                show_grid()
+                coord_str = input("Where would you like to place your marker player '" + player + "'? ")
+                coords = list(eval(coord_str))
+
+                coords[0] -= 1
+                coords[1] -= 1
+
+                if coords[0] > 2 or coords[0] < 0 or coords[1] > 2 or coords[1] < 0:
+                    print('Values between 1 and 3 please')
+
+                elif try_move(coords, player):
+                    break
+                
+                else:
+                    print('That spot is taken up, try a different one')
+                    
+            except:
+                print('Coordinates please (in the form (x,y) or x,y)')
         
-            if try_move(coords, player):
-                break
-            else:
-                print('That spot is taken up, try a different one')
+            
 
         
 
