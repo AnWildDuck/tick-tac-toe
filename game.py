@@ -6,6 +6,31 @@ grid = [
     ]
 
 
+def winner():
+    global grid, players
+
+    win_conditions = ((0,1,2),(3,4,5),(6,7,8),(0,3,6),(1,4,7),(2,5,8),(0,4,8),(2,4,6))
+
+    flat_grid = []
+    for row in grid:
+        for value in row:
+            flat_grid.append(value)
+
+    for player in players:
+        for win_con in win_conditions:
+
+            score = 0
+            for index in win_con:
+
+                if flat_grid[index] == player:
+                    score += 1
+
+            if score == 3:
+                return player
+            
+    return None
+
+
 def show_grid():
     global grid
 
