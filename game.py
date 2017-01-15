@@ -1,12 +1,13 @@
 
 grid = [
     [None, None, None],
-    ['o', 'x', None],
-    [None, None, 'x']
+    [None, None, None],
+    [None, None, None]
     ]
 
 
-def show_grid(grid):
+def show_grid():
+    global grid
 
     for row_index in range(3):
         row = grid[row_index]
@@ -18,8 +19,47 @@ def show_grid(grid):
                 print('.', end = ' ')
             else:
                 print(value, end = ' ')
-
         print()
 
 
-show_grid(grid)
+def try_move(pos, player):
+    global grid
+    value = grid[pos[1]][pos[0]]
+
+    if value == None:
+        grid[pos[1]][pos[0]] = player
+        return True
+    return False
+
+
+players = ['x', 'o']
+
+# Game loop
+while True:
+
+    for player in players:
+
+        while True:
+            print()
+            show_grid()
+            coord_str = input("Where would you like to place your marker player '" + player + "'? ")
+            coords = eval(coord_str)
+        
+            if try_move(coords, player):
+                break
+            else:
+                print('That spot is taken up, try a different one')
+
+        
+
+
+
+
+
+
+
+
+
+
+
+        
