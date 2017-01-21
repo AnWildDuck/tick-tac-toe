@@ -1,9 +1,15 @@
-def make_grid():
-    return [
+import random
+
+grid = [
     [None, None, None],
     [None, None, None],
     [None, None, None]
     ]
+
+
+def gap():
+    print('''
+''' * 50)
 
 def winner():
     global grid, players
@@ -29,9 +35,6 @@ def winner():
             
     return None
 
-def gap():
-    print('''
-''' * 50)
 
 def show_grid():
     global grid
@@ -49,6 +52,16 @@ def show_grid():
         print()
 
 
+def full_board():
+    global grid
+
+    for row in grid:
+        for value in row:
+            if value == None:
+                return False
+    return True
+
+
 def try_move(pos, player):
     global grid
     value = grid[pos[1]][pos[0]]
@@ -60,64 +73,87 @@ def try_move(pos, player):
 
 
 players = ['x', 'o']
-grid = make_grid()
-
+random.shuffle(players)
 gap()
+
 print('''Welcome to noughts and crosses!
-This was made by Jon fam
+this game was made by Jon Fam
 
 Press enter to start''')
 input()
+gap()
 
 # Game loop
 while True:
 
-    gap()
-
     for player in players:
 
-        win = winner()
+        while True:
 
-        if win == None:
+            try:
+                show_grid()
+                coord_str = input("Where would you like to place your marker player '" + player + "'? ")
+                coords = list(eval(coord_str))
 
-            while True:
+                coords[0] -= 1
+                coords[1] -= 1
 
-                try:
-                    print()
-                    show_grid()
-                    coord_str = input("Where would you like to place your marker player '" + player + "'? ")
-                    coords = list(eval(coord_str))
-
-                    coords[0] -= 1
-                    coords[1] -= 1
-
-                    coords[0] = int(coords[0])
-                    coords[0] = int(coords[0])
-
+                if coords[0] > 2 or coords[0] < 0 or coords[1] > 2 or coords[1] < 0:
                     gap()
+                    print('Values between 1 and 3 please')
 
-                    if coords[0] > 2 or coords[0] < 0 or coords[1] > 2 or coords[1] < 0:
-                        print('Values between 1 and 3 please')
-
-                    elif try_move(coords, player):
-                        break
+                elif try_move(coords, player):
+                    gap()
+                    break
+                
+                else:
+                    gap()
+                    print('That spot is taken up, try a different one')
                     
-                    else:
-                        gap()
-                        print('That spot is taken up, try a different one')
-                        
-                except:
-                    gap()
-                    print('Coordinates please (in the form (x,y) or x,y)')
+            except:
+                gap()
+                print('Coordinates please (in the form (x,y) or x,y)')
 
+        win = winner()
+        if win:
 
-        else:   
-            print('''
-----------------------
-Player ''' + win + ''' won!
-Press enter to restart
-----------------------''')
-            grid = make_grid()
+            gap()
+            print('-------------------------')
+            print('Player ' + win + ' won!')
+            print('Press enter to play again')
+            print('-------------------------')
+
             input()
+            
+            grid = [
+                [None, None, None],
+                [None, None, None],
+                [None, None, None]
+                ]
+            random.shuffle(players)
+            break
+            
 
-        
+        elif full_board():
+            gap()
+            print('-------------------------')
+            print('Stalemate! No one won!')
+            print('Press enter to play again')
+            print('-------------------------')
+
+            input()
+            
+            grid = [
+                [None, None, None],
+                [None, None, None],
+                [None, None, None]
+                ]
+            random.shuffle(players)
+            break
+
+
+
+
+
+
+            
